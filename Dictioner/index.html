@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Deutsch-Arabisch B2 Wörterbuch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 0 15px;
+      background: #f9f9f9;
+      color: #222;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input[type="search"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 0 5px #ddd;
+    }
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      background-color: #007BFF;
+      color: white;
+      position: sticky;
+      top: 0;
+    }
+    tr:hover {
+      background-color: #f1f7ff;
+    }
+    @media (max-width: 480px) {
+      body {
+        margin: 10px;
+      }
+      th, td {
+        padding: 10px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Deutsch → Arabisch B2 Wörterbuch</h1>
+  <input type="search" id="searchInput" placeholder="Suche ein Wort..." />
+
+  <table id="dictionaryTable">
+    <thead>
+      <tr>
+        <th>Deutsch</th>
+        <th>العربية</th>
+      </tr>
+    </thead>
+    <tbody id="dictBody">
+      <!-- Rows will be inserted here by JS -->
+    </tbody>
+  </table>
+
+  <script>
+    const words = [
+      {de: "abenteuerlich", ar: "مغامر"},
+      {de: "abgeben", ar: "يسلم / يسلم شيئًا"},
+      {de: "abweichen", ar: "ينحرف / يختلف"},
+      {de: "abbauen", ar: "يفك / يقلل"},
+      {de: "Alkoholiker", ar: "مدمن كحول"},
+      {de: "allzu", ar: "جداً / كثيراً"},
+      {de: "angemessen", ar: "مناسب"},
+      {de: "anerkannt", ar: "معترف به"},
+      {de: "auftreten", ar: "يظهر / يقدم نفسه"},
+      {de: "aufbereiten", ar: "يعالج / يحضر"},
+      {de: "aufgeregt", ar: "متوتر"},
+      {de: "auflösen", ar: "يحل"},
+      {de: "aufzeigen", ar: "يُظهر / يبيّن"},
+      {de: "ausgrenzen", ar: "يستبعد"},
+      {de: "Auslandserfahrung", ar: "خبرة في الخارج"},
+      {de: "ausstrecken", ar: "يمد"},
+      {de: "auszahlen", ar: "يدفع"},
+      {de: "auswandern", ar: "يهاجر"},
+      {de: "Auswirkung", ar: "تأثير"},
+      {de: "Auszeit", ar: "فترة استراحة"},
+      {de: "Autor/in", ar: "مؤلف / مؤلفة"},
+      {de: "bedürftig", ar: "محتاج"},
+      {de: "beibringen", ar: "يعلم"},
+      {de: "beantragen", ar: "يقدم طلباً"},
+      {de: "betroffen", ar: "متأثر"},
+      {de: "Bewerbungstrainer", ar: "مدرب التقديم للوظائف"},
+      {de: "Bewerber", ar: "مترشح / متقدم للوظيفة"},
+      {de: "Bildungswesen", ar: "النظام التعليمي"},
+      {de: "bilingual", ar: "ثنائي اللغة"},
+      {de: "Blickkontakt", ar: "الاتصال البصري"},
+      {de: "Bluthochdruck", ar: "ارتفاع ضغط الدم"},
+      {de: "Blog", ar: "مدونة"},
+      {de: "Brauch", ar: "عادة"},
+      {de: "bereuen", ar: "يندم"},
+      {de: "Besetzt", ar: "مشغول"},
+      {de: "betreiben", ar: "يدير / يعمل"},
+      {de: "Coaching", ar: "التدريب"},
+      {de: "Computerspielsucht", ar: "إدمان ألعاب الكمبيوتر"},
+      {de: "Cartoon", ar: "كاريكاتير"},
+      {de: "deuten", ar: "يفسر"},
+      {de: "dekorieren", ar: "يزيّن"},
+      {de: "Denkmal", ar: "نصب تذكاري"},
+      {de: "Drogenabhängige", ar: "مدمن مخدرات"},
+      {de: "durchhalten", ar: "يصمد / يتحمل"},
+      {de: "durchstellen", ar: "يوصل المكالمة"},
+      {de: "Dürreperiode", ar: "فترة جفاف"},
+      {de: "einleben", ar: "يتأقلم"},
+      {de: "einrichten", ar: "يؤثث"},
+      {de: "einsehen", ar: "يدرك"},
+      {de: "einsprachig", ar: "متحدث بلغة واحدة"},
+      {de: "Emotion", ar: "عاطفة"},
+      {de: "empfinden", ar: "يشعر"},
+      {de: "Entzug", ar: "انسحاب / سحب"},
+      {de: "Erfinder/in", ar: "مخترع / مخترعة"},
+      {de: "eröffnen", ar: "يفتح"},
+      {de: "Erfahrung", ar: "خبرة"},
+      {de: "erweitern", ar: "يوسع"},
+      {de: "experimentieren", ar: "يجرب"},
+      {de: "Faustregel", ar: "قاعدة عامة"},
+      {de: "fehlerlos", ar: "خالٍ من الأخطاء"},
+      {de: "feststellen", ar: "يحدد / يلاحظ"},
+      {de: "Flüchtling", ar: "لاجئ"},
+      {de: "Fördermaßnahme", ar: "إجراء دعم"},
+      {de: "Forschungseinrichtung", ar: "مؤسسة بحثية"},
+      {de: "Gewalt", ar: "عنف"},
+      {de: "Gehirn", ar: "دماغ"},
+      {de: "Gedicht", ar: "قصيدة"},
+      {de: "Gewaltübergriff", ar: "اعتداء عنيف"},
+      {de: "Gleichstellung", ar: "مساواة"},
+      {de: "Handwerk", ar: "حرفة"},
+      {de: "Hauptberuflich", ar: "بدوام كامل"},
+      {de: "Hilfswerk", ar: "منظمة مساعدة"},
+      {de: "historisch", ar: "تاريخي"},
+      {de: "Kampagne", ar: "حملة"},
+      {de: "Karriere", ar: "مهنة / مسيرة مهنية"},
+      {de: "Kindererziehung", ar: "تربية الأطفال"},
+      {de: "Klinik", ar: "عيادة / مستشفى"},
+      {de: "Klischee", ar: "قالب نمطي"},
+      {de: "Kompetenz", ar: "كفاءة"},
+      {de: "Konzentrationsleistung", ar: "التركيز"},
+      {de: "Kontakt", ar: "اتصال"},
+      {de: "Körpersprache", ar: "لغة الجسد"},
+      {de: "Kreieren", ar: "يبدع"},
+      {de: "Krimi", ar: "رواية جريمة"},
+      {de: "Kulturangebot", ar: "عرض ثقافي"},
+      {de: "Kulturell", ar: "ثقافي"},
+      {de: "Lebensentwurf", ar: "تصميم الحياة"},
+      {de: "Leichtfallen", ar: "سهل"},
+      {de: "Literatur", ar: "أدب"},
+      {de: "Maskenbildner/in", ar: "خبير المكياج"},
+      {de: "Mietvertrag", ar: "عقد الإيجار"},
+      {de: "Motiviert", ar: "متحمس"},
+      {de: "Nachmieter/in", ar: "المستأجر الجديد"},
+      {de: "Nervenkitzel", ar: "إثارة"},
+      {de: "Notlage", ar: "حالة طوارئ"},
+      {de: "Novelle", ar: "رواية قصيرة"},
+      {de: "Öffentlichkeit", ar: "الجمهور"},
+      {de: "Parfümeur/in", ar: "صانع عطور"},
+      {de: "Phase", ar: "مرحلة"},
+      {de: "Psyche", ar: "نفس / عقل"},
+      {de: "Qualifikation", ar: "مؤهل"},
+      {de: "radioaktiv", ar: "مشع"},
+      {de: "Randale", ar: "شغب"},
+      {de: "Restaurieren", ar: "يرمم"},
+      {de: "Rollenverteilung", ar: "توزيع الأدوار"},
+      {de: "Roman", ar: "رواية"},
+      {de: "Schlafmangel", ar: "نقص النوم"},
+      {de: "Schulabschluss", ar: "شهادة مدرسية"},
+      {de: "Schriftsteller/in", ar: "كاتب / كاتبة"},
+      {de: "Sehnsüchtig", ar: "مشوق / متلهف"},
+      {de: "Signal", ar: "إشارة"},
+      {de: "Sozialhilfe", ar: "معونة اجتماعية"},
+      {de: "Spendenbereitschaft", ar: "استعداد للتبرع"},
+      {de: "Sportwissenschaftler", ar: "عالم رياضة"},
+      {de: "Standpunkt", ar: "وجهة نظر"},
+      {de: "Stuntman/Stuntfrau", ar: "ممثل مشاهد خطيرة"},
+      {de: "Sucht", ar: "إدمان"},
+      {de: "Täuschung", ar: "خداع"},
+      {de: "Tradition", ar: "تقليد"},
+      {de: "Unterfordern", ar: "يقلل من الطلب"},
+      {de: "Verhalten", ar: "سلوك"},
+      {de: "Vertrauen", ar: "ثقة"},
+      {de: "Wissenschaftler/in", ar: "عالِم / عالمة"},
+      {de: "Zuverlässig", ar: "موثوق"},
+      {de: "Zwischendurch", ar: "بين الحين والآخر"}
+    ];
+
+    const tbody = document.getElementById('dictBody');
+    const searchInput = document.getElementById('searchInput');
+
+    // Function to render rows based on filter
+    function renderTable(filter = '') {
+      const filterLower = filter.toLowerCase();
+      tbody.innerHTML = '';
+
+      const filteredWords = words.filter(
+        (w) =>
+          w.de.toLowerCase().includes(filterLower) ||
+          w.ar.includes(filterLower)
+      );
+
+      if (filteredWords.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="2" style="text-align:center; font-style:italic; color:#888;">Keine Ergebnisse</td></tr>`;
+        return;
+      }
+
+      for (const w of filteredWords) {
+        const row = document.createElement('tr');
+        const cellDe = document.createElement('td');
+        cellDe.textContent = w.de;
+        const cellAr = document.createElement('td');
+        cellAr.textContent = w.ar;
+        row.appendChild(cellDe);
+        row.appendChild(cellAr);
+        tbody.appendChild(row);
+      }
+    }
+
+    // Initial render
+    renderTable();
+
+    // Event listener for search
+    searchInput.addEventListener('input', (e) => {
+      renderTable(e.target.value);
+    });
+  </script>
+</body>
+</html>
